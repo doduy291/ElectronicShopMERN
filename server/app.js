@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const productsData = require('./dev-data/products');
 const app = express();
 
@@ -8,6 +9,21 @@ const app = express();
 app.use(express.json());
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+
+// Database Connection
+mongoose
+  .connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log('Connected to the database!');
+  })
+  .catch((err) => {
+    console.log('Failed Connection', err);
+  });
 
 //Router
 app.get('/', (req, res) => {
