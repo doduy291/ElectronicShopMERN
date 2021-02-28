@@ -7,13 +7,16 @@
     "start": "nodemon server/app.js",
     "server": "nodemon server/app.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node server/seeder.js"
   },
   "author": "Do Duy",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "mongoose": "^5.11.18"
   },
   "devDependencies": {

@@ -1,7 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const productsData = require('./dev-data/products');
+
+// Require Routes
+const productRoutes = require('./routes/productRoutes');
+
 const app = express();
 
 // Replace Body-parse for Expressjs 4.16+
@@ -29,13 +32,9 @@ mongoose
 app.get('/', (req, res) => {
   res.send('API is running');
 });
-app.get('/api/products', (req, res) => {
-  res.send(productsData);
-});
-app.get('/api/products/:id', (req, res) => {
-  const product = productsData.find((p) => p._id === req.params.id);
-  res.json(product);
-});
+app.use('/api/products', productRoutes);
+
+//Error Handle
 
 const port = process.env.PORT || 3000;
 app.listen(port, console.log(`App running on port ${port}...`));
