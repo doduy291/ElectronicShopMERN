@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
 const productRoutes = require('./routes/productRoutes');
 
@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 
 //Error Handle
+// Not found URL link
+app.use(notFound);
+// Error Handler
+app.use(errorHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, console.log(`App running on port ${port}...`));
