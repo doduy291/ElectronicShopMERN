@@ -8,11 +8,13 @@ import Quantity from '../components/Quantity';
 import axios from 'axios';
 import { productDetailsAction } from '../actions/productActions';
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
   // 'match' object contains information about how a <Route path> matched the URL
   // const product = productsData.find((p) => p._id === match.params.id);
 
   // ****** WITH REACT STATE ******//
+  const [valueQuantity, setValueQuantity] = useState(1);
+
   // const [oneProduct, setOneProduct] = useState({});
   // useEffect(() => {
   //   const fetchOneProduct = async () => {
@@ -30,6 +32,9 @@ const ProductScreen = ({ match }) => {
     dispatch(productDetailsAction(match.params.id));
   }, [dispatch, match]);
 
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${valueQuantity}`);
+  };
   return (
     <div className="my-5">
       {loading ? (
@@ -75,13 +80,22 @@ const ProductScreen = ({ match }) => {
                     <Row className="items-center">
                       <Col>Qty</Col>
                       <Col>
-                        <Quantity />
+                        <Quantity
+                          stockleft={oneProduct.countInStock}
+                          valueQuantity={valueQuantity}
+                          setValueQuantity={setValueQuantity}
+                        />
                       </Col>
                     </Row>
                   </ListGroup.Item>
                 )}
                 <ListGroup.Item>
-                  <Button className="btn-block" type="button" disabled={oneProduct.countInStock === 0}>
+                  <Button
+                    className="btn-block"
+                    type="button"
+                    disabled={oneProduct.countInStock === 0}
+                    onClick={addToCartHandler}
+                  >
                     Add To Cart
                   </Button>
                 </ListGroup.Item>
