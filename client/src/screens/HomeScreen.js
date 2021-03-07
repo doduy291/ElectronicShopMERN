@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
 import axios from 'axios';
-import { listProducts } from '../actions/productActions';
+import { productListAction } from '../actions/productActions';
 
 const HomeScreen = () => {
   // ****** WITH REACT STATE ******//
@@ -23,16 +25,16 @@ const HomeScreen = () => {
   const productList = useSelector((state) => state.productList);
   const { loading, error, allProducts } = productList;
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(productListAction());
   }, [dispatch]);
 
   return (
     <div>
       <h1>Latest Product</h1>
       {loading ? (
-        <h1> Loading... </h1>
+        <Loader />
       ) : error ? (
-        <h3>{error}</h3>
+        <Message>{error}</Message>
       ) : (
         <Row>
           {allProducts.map((prd) => (
