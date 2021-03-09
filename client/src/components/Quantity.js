@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-const Quantity = ({ stockleft, valueQuantity, setValueQuantity }) => {
+const Quantity = ({ valueQuantity, setValueQuantity }) => {
   // ****** WITH REACT STATE ******//
   const incrementQty = () => {
-    if (valueQuantity < stockleft) return setValueQuantity(valueQuantity + 1);
+    if (valueQuantity < 50) return setValueQuantity(valueQuantity + 1);
     // if (valueQuantity < 50) return setValueQuantity((x) => x + 1); *** With useEffect
   };
   const decreaseQty = () => {

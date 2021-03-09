@@ -81,7 +81,7 @@ const ProductScreen = ({ match, history }) => {
                       <Col>Qty</Col>
                       <Col>
                         <Quantity
-                          stockleft={oneProduct.countInStock}
+                          // stockleft={oneProduct.countInStock}
                           valueQuantity={valueQuantity}
                           setValueQuantity={setValueQuantity}
                         />
