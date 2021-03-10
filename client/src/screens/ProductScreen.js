@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import axios from 'axios';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import Quantity from '../components/Quantity';
-import axios from 'axios';
 import { productDetailsAction } from '../actions/productActions';
+import { addToCart } from '../actions/cartActions';
 
 const ProductScreen = ({ match, history }) => {
   // 'match' object contains information about how a <Route path> matched the URL
   // const product = productsData.find((p) => p._id === match.params.id);
 
   // ****** WITH REACT STATE ******//
-  const [valueQuantity, setValueQuantity] = useState(1);
 
   // const [oneProduct, setOneProduct] = useState({});
   // useEffect(() => {
@@ -28,13 +27,22 @@ const ProductScreen = ({ match, history }) => {
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, oneProduct } = productDetails;
+
+  // ****** WITH REACT STATE ******//
+  const [valueQuantity, setValueQuantity] = useState(1);
+  const incrementQty = () => {
+    if (valueQuantity < oneProduct.countInStock) return setValueQuantity(valueQuantity + 1);
+    // if (valueQuantity < 50) return setValueQuantity((x) => x + 1); *** With useEffect
+  };
+  const decreaseQty = () => {
+    if (valueQuantity > 1) return setValueQuantity(valueQuantity - 1);
+  };
+  // useEffect(() => { console.log(valueQuantity) }, [valueQuantity]);
+
   useEffect(() => {
     dispatch(productDetailsAction(match.params.id));
   }, [dispatch, match]);
 
-  const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${valueQuantity}`);
-  };
   return (
     <div className="my-5">
       {loading ? (
@@ -80,11 +88,21 @@ const ProductScreen = ({ match, history }) => {
                     <Row className="items-center">
                       <Col>Qty</Col>
                       <Col>
-                        <Quantity
-                          // stockleft={oneProduct.countInStock}
-                          valueQuantity={valueQuantity}
-                          setValueQuantity={setValueQuantity}
-                        />
+                        <div className="component-quantity">
+                          <button
+                            className="quantity-input__modifier quantity-input__modifier--left"
+                            onClick={() => decreaseQty()}
+                          >
+                            -
+                          </button>
+                          <input className="quantity-input__screen" type="text" value={valueQuantity} readOnly />
+                          <button
+                            className="quantity-input__modifier quantity-input__modifier--right"
+                            onClick={() => incrementQty()}
+                          >
+                            +
+                          </button>
+                        </div>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -94,7 +112,7 @@ const ProductScreen = ({ match, history }) => {
                     className="btn-block"
                     type="button"
                     disabled={oneProduct.countInStock === 0}
-                    onClick={addToCartHandler}
+                    onClick={() => dispatch(addToCart(oneProduct._id, valueQuantity))}
                   >
                     Add To Cart
                   </Button>
