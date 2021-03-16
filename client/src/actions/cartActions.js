@@ -1,4 +1,10 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_DECREASE_ITEM, CART_INCREASE_ITEM } from '../constants/cartConstants';
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_DECREASE_ITEM,
+  CART_INCREASE_ITEM,
+  CART_CHANGEQTY_ITEM,
+} from '../constants/cartConstants';
 import axios from 'axios';
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
@@ -41,6 +47,16 @@ export const decreaseItemCart = (id) => async (dispatch, getState) => {
     type: CART_DECREASE_ITEM,
     payload: {
       itemID: id,
+    },
+  });
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};
+export const changeItemQtyCart = (id, qty) => async (dispatch, getState) => {
+  dispatch({
+    type: CART_CHANGEQTY_ITEM,
+    payload: {
+      itemID: id,
+      qty,
     },
   });
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));

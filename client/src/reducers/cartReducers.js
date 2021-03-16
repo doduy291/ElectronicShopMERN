@@ -1,4 +1,10 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_INCREASE_ITEM, CART_DECREASE_ITEM } from '../constants/cartConstants';
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_INCREASE_ITEM,
+  CART_DECREASE_ITEM,
+  CART_CHANGEQTY_ITEM,
+} from '../constants/cartConstants';
 
 export const cartReducer = (state = { cartItems: [] }, action) => {
   switch (action.type) {
@@ -18,6 +24,9 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       return { ...state, cartItems: state.cartItems.map((x) => x) };
     case CART_DECREASE_ITEM:
       state.cartItems[state.cartItems.findIndex((x) => x.product === action.payload.itemID)].qty--;
+      return { ...state, cartItems: state.cartItems.map((x) => x) };
+    case CART_CHANGEQTY_ITEM:
+      state.cartItems[state.cartItems.findIndex((x) => x.product === action.payload.itemID)].qty = action.payload.qty;
       return { ...state, cartItems: state.cartItems.map((x) => x) };
     default:
       return state;

@@ -38,6 +38,9 @@ const ProductScreen = ({ match, history }) => {
     if (valueQuantity > 1) return setValueQuantity(valueQuantity - 1);
   };
   // useEffect(() => { console.log(valueQuantity) }, [valueQuantity]);
+  const changeValueInputQty = (valueInputQty) => {
+    return setValueQuantity(valueInputQty);
+  };
 
   useEffect(() => {
     dispatch(productDetailsAction(match.params.id));
@@ -95,7 +98,12 @@ const ProductScreen = ({ match, history }) => {
                           >
                             -
                           </button>
-                          <input className="quantity-input__screen" type="text" value={valueQuantity} readOnly />
+                          <input
+                            className="quantity-input__screen"
+                            type="text"
+                            value={valueQuantity}
+                            onChange={(e) => changeValueInputQty(e.target.value)}
+                          />
                           <button
                             className="quantity-input__modifier quantity-input__modifier--right"
                             onClick={() => incrementQty()}

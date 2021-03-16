@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
   res.send('API is running');
 });
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 //Error Handle
 // Not found URL link
