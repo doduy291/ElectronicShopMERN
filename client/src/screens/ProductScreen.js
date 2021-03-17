@@ -8,7 +8,7 @@ import Message from '../components/Message';
 import { productDetailsAction } from '../actions/productActions';
 import { addToCart } from '../actions/cartActions';
 
-const ProductScreen = ({ match, history }) => {
+const ProductScreen = ({ match }) => {
   // 'match' object contains information about how a <Route path> matched the URL
   // const product = productsData.find((p) => p._id === match.params.id);
 

@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const userModel = require('../models/User_Model');
 const generateToken = require('../utils/generateToken');
 
+// @route POST api/users/login
 exports.authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email: email });
