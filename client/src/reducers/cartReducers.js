@@ -6,7 +6,7 @@ import {
   CART_CHANGEQTY_ITEM,
 } from '../constants/cartConstants';
 
-export const cartReducer = (state = { cartItems: [] }, action) => {
+export const cartReducer = (state = {}, action) => {
   switch (action.type) {
     case CART_ADD_ITEM:
       const item = action.payload;

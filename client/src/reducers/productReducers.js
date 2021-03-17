@@ -10,7 +10,7 @@ import {
 export const productListReducer = (state = { allProducts: [] }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
-      return { loading: true, allProducts: [] };
+      return { loading: true };
     case PRODUCT_LIST_SUCCESS:
       return { loading: false, allProducts: action.payload };
     case PRODUCT_LIST_FAIL:
@@ -20,10 +20,10 @@ export const productListReducer = (state = { allProducts: [] }, action) => {
   }
 };
 
-export const productDetailsReducer = (state = { oneProduct: { reviews: [] } }, action) => {
+export const productDetailsReducer = (state = { oneProduct: {} }, action) => {
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
-      return { loading: true, oneProduct: { reviews: [] } };
+      return { loading: true };
     case PRODUCT_DETAILS_SUCCESS:
       return { loading: false, oneProduct: action.payload };
     case PRODUCT_DETAILS_FAIL:

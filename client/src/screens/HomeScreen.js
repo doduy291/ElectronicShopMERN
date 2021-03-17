@@ -23,6 +23,7 @@ const HomeScreen = () => {
   // ****** WITH REDUX ******//
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
+  console.log(useSelector((state) => state));
   const { loading, error, allProducts } = productList;
   useEffect(() => {
     dispatch(productListAction());

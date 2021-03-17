@@ -22,21 +22,7 @@ exports.authUser = asyncHandler(async (req, res) => {
   }
 });
 
-exports.getUserProfile = asyncHandler(async (req, res) => {
-  const user = await userModel.findOne({ _id: req.user._id });
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    });
-  } else {
-    res.status(404);
-    throw new Error('User Profile not Found');
-  }
-});
-
+// @route POST api/users/register
 exports.registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const userExist = await userModel.findOne({ email: email });
@@ -56,5 +42,44 @@ exports.registerUser = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error('Invalid User Data');
+  }
+});
+
+// @route GET api/users/register
+exports.getUserProfile = asyncHandler(async (req, res) => {
+  const user = await userModel.findOne({ _id: req.user._id });
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User Profile not Found');
+  }
+});
+
+// @route PUT api/users/register
+exports.updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await userModel.findOne({ _id: req.user._id });
+  if (user) {
+    const { name, email, password } = req.body;
+    user.name = name || user.name;
+    user.email = email || user.email;
+    if (password) user.password = password;
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User Profile not Found');
   }
 });
