@@ -45,7 +45,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @route GET api/users/register
+// @route GET api/users/profile
 exports.getUserProfile = asyncHandler(async (req, res) => {
   const user = await userModel.findOne({ _id: req.user._id });
   if (user) {
@@ -61,7 +61,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @route PUT api/users/register
+// @route PUT api/users/profile
 exports.updateUserProfile = asyncHandler(async (req, res) => {
   const user = await userModel.findOne({ _id: req.user._id });
   if (user) {
@@ -80,6 +80,6 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error('User Profile not Found');
+    throw new Error('Cannnot Update Profile');
   }
 });

@@ -7,7 +7,7 @@ import Message from '../components/Message';
 import Cart_quantity from '../components/Cart_quantity';
 import { removeFromCart } from '../actions/cartActions';
 
-const CartScreen = ({ match, history, location }) => {
+const CartScreen = () => {
   // ****** WITH REACT REDUX ******//
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
