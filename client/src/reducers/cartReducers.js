@@ -4,6 +4,7 @@ import {
   CART_INCREASE_ITEM,
   CART_DECREASE_ITEM,
   CART_CHANGEQTY_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
 } from '../constants/cartConstants';
 
 export const cartReducer = (state = {}, action) => {
@@ -29,6 +30,8 @@ export const cartReducer = (state = {}, action) => {
     case CART_CHANGEQTY_ITEM:
       state.cartItems[state.cartItems.findIndex((x) => x.product === action.payload.itemID)].qty = action.payload.qty;
       return { ...state, cartItems: state.cartItems.map((x) => x) };
+    case CART_SAVE_SHIPPING_ADDRESS:
+      return { ...state, shippingAddress: action.payload };
     default:
       return state;
   }

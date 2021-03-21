@@ -7,7 +7,7 @@ import Message from '../components/Message';
 import Cart_quantity from '../components/Cart_quantity';
 import { removeFromCart } from '../actions/cartActions';
 
-const CartScreen = () => {
+const CartScreen = ({ history }) => {
   // ****** WITH REACT REDUX ******//
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
@@ -17,7 +17,7 @@ const CartScreen = () => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    console.log('checkout');
+    history.push('/login?redirect=shipping');
   };
 
   return (
