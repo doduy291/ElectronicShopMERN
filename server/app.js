@@ -5,7 +5,7 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-
+const orderRoutes = require('./routes/orderRoutes');
 const app = express();
 
 // Replace Body-parse for Expressjs 4.16+
@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
 //Error Handle
 // Not found URL link
