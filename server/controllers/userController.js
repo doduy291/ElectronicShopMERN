@@ -83,3 +83,58 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error('Cannnot Update Profile');
   }
 });
+
+// @route GET api/users
+// @access Private/Admin
+exports.getUsers = asyncHandler(async (req, res) => {
+  const users = await userModel.find({});
+  res.json(users);
+});
+
+// @route GET api/users/:id
+// @access Private/Admin
+exports.getUsersById = asyncHandler(async (req, res) => {
+  const user = await userModel.findOne({ _id: req.params.id }).select('-password');
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// @route PUT api/users/:id
+// @access Private/Admin
+exports.updateUser = asyncHandler(async (req, res) => {
+  const user = await userModel.findOne({ _id: req.params.id });
+  if (user) {
+    const { name, email, isAdmin } = req.body;
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.isAdmin = isAdmin || user.isAdmin;
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error('Cannnot Update Profile');
+  }
+});
+
+// @route DELETE api/users/delete/:id
+// @access Private/Admin
+exports.deleteUser = asyncHandler(async (req, res) => {
+  const user = await userModel.findOne({ _id: req.params.id });
+  if (user) {
+    await user.remove();
+    res.json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});

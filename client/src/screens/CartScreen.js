@@ -25,7 +25,7 @@ const CartScreen = ({ history }) => {
       <Col md={8}>
         <h1> Shopping Mart</h1>
         {cartItems.length === 0 ? (
-          <Message alert={'info'}>
+          <Message alert="info">
             Your cart is empty <Link to="/">GO BACK</Link>
           </Message>
         ) : (
