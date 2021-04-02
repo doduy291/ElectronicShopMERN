@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
@@ -7,6 +8,7 @@ const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const payRoutes = require('./routes/payRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 const app = express();
 
 // Replace Body-parse for Expressjs 4.16+
@@ -37,9 +39,12 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.use('/api/config', payRoutes);
 
+const dirname = path.resolve();
+app.use('/uploads', express.static(path.join(dirname, '/uploads/')));
 //Error Handle
 // Not found URL link
 app.use(notFound);

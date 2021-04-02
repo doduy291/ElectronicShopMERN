@@ -108,10 +108,11 @@ exports.getUsersById = asyncHandler(async (req, res) => {
 exports.updateUser = asyncHandler(async (req, res) => {
   const user = await userModel.findOne({ _id: req.params.id });
   if (user) {
+    console.log(req.body);
     const { name, email, isAdmin } = req.body;
     user.name = name || user.name;
     user.email = email || user.email;
-    user.isAdmin = isAdmin || user.isAdmin;
+    user.isAdmin = isAdmin === false ? 0 : 1 || user.isAdmin;
 
     const updatedUser = await user.save();
     res.json({

@@ -11,6 +11,9 @@ const ProductListScreen = ({ history }) => {
   const productList = useSelector((state) => state.productList);
   const { loading, error, allProducts } = productList;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -20,14 +23,11 @@ const ProductListScreen = ({ history }) => {
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
-      deleteProduct(id);
+      dispatch(deleteProduct(id));
     }
-  };
-  const createProductHandler = () => {
-    console.log('');
   };
   return (
     <>
@@ -36,11 +36,15 @@ const ProductListScreen = ({ history }) => {
           <h1>Products</h1>
         </Col>
         <Col className="text-right">
-          <Button className="my-3" onClick={createProductHandler}>
-            <i className="fas fa-plus"></i> Create Product
-          </Button>
+          <Link to="/admin/create-product">
+            <Button className="my-3">
+              <i className="fas fa-plus"></i> Create Product
+            </Button>
+          </Link>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message alert="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
