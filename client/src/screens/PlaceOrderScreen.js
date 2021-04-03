@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
+import { emptyCart } from '../actions/cartActions';
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
   cart.itemsPrice = cart.cartItems.reduce((pre, cur) => pre + cur.price * cur.qty, 0).toFixed(2);
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
+  cart.shippingPrice = cart.itemsPrice > 50 ? 0 : 5;
   cart.taxPrice = Number((0.15 * cart.itemsPrice).toFixed(2));
   cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2);
 
@@ -20,9 +21,10 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (success) {
+      dispatch(emptyCart());
       history.push(`/order/${order._id}`);
     }
-  }, [history, success]);
+  }, [dispatch, history, success]);
 
   const placeOrderHandler = () => {
     dispatch(

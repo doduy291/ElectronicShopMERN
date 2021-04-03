@@ -39,7 +39,7 @@ const CartScreen = ({ history }) => {
                   <Col md={3}>
                     <Link to={`product/${item.product}`}>{item.name}</Link>
                   </Col>
-                  <Col md={2}>{item.price}</Col>
+                  <Col md={2}>${item.price}</Col>
                   <Col md={2}>
                     <Cart_quantity valueQty={item.qty} countInStock={item.countInStock} itemID={item.product} />
                   </Col>
