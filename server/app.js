@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
 const productRoutes = require('./routes/productRoutes');
@@ -10,6 +11,10 @@ const orderRoutes = require('./routes/orderRoutes');
 const payRoutes = require('./routes/payRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // Replace Body-parse for Expressjs 4.16+
 // Parse JSON Bodies

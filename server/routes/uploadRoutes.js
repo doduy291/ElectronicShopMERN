@@ -1,16 +1,19 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const sharp = require('sharp');
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename(req, file, cb) {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename(req, file, cb) {
+//     cb(null, `262x317-${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+//   },
+// });
+
+const storage = multer.memoryStorage();
 
 function checkFileType(file, cb) {
   const filetypes = /jpg|jpeg|png/;
@@ -28,8 +31,18 @@ const upload = multer({
     checkFileType(file, cb);
   },
 });
-router.post('/', upload.single('image'), (req, res) => {
-  const imageUrl = req.file.path.replace(/\\/g, '/');
+
+const uploadSingle = upload.single('image');
+const resizeProductImg = async (req, res, next) => {
+  if (!req.file) return next();
+  req.file.filename = `640x510-${req.file.fieldname}-${Date.now()}${path.extname(req.file.originalname)}`;
+  // await sharp(req.file.buffer).resize(640, 510).toFile(`uploads/${req.file.filename}`);
+  next();
+};
+
+router.post('/', uploadSingle, resizeProductImg, (req, res) => {
+  console.log(req.file);
+  const imageUrl = `uploads/${req.file.filename}`;
   res.send(`/${imageUrl}`);
 });
 

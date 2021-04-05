@@ -43,12 +43,10 @@ const ProductEditScreen = ({ match, history }) => {
       setDescription(oneProduct.description);
     }
   }, [dispatch, history, userInfo, oneProduct, productId, successUpdate]);
-  const updateHandler = (e) => {
-    e.preventDefault();
-    dispatch(updateProduct({ _id: productId, name, price, image, brand, category, countInStock, description }));
-  };
+
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
+
     const formData = new FormData();
     formData.append('image', file);
     setUploading(true);
@@ -63,6 +61,10 @@ const ProductEditScreen = ({ match, history }) => {
       console.log(error);
       setUploading(false);
     }
+  };
+  const updateHandler = (e) => {
+    e.preventDefault();
+    dispatch(updateProduct({ _id: productId, name, price, image, brand, category, countInStock, description }));
   };
   return (
     <>
