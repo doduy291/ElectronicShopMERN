@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import axios from 'axios';
 import { productListAction } from '../actions/productActions';
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
   // ****** WITH REACT STATE ******//
   // const [allProducts, setAllProducts] = useState([]);
 
@@ -19,14 +19,14 @@ const HomeScreen = () => {
   //   };
   //   fetchAllProducts();
   // }, []);
-
+  const keyword = match.params.keyword;
   // ****** WITH REDUX ******//
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, allProducts } = productList;
   useEffect(() => {
-    dispatch(productListAction());
-  }, [dispatch]);
+    dispatch(productListAction(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <div>

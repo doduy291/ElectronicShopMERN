@@ -3,7 +3,18 @@ const Product = require('../models/Product_Model');
 const productModel = require('../models/Product_Model');
 
 exports.getProduct = asyncHandler(async (req, res) => {
-  const allProducts = await productModel.find({});
+  const pageSize = 2;
+  const page = Number(req.query.pageNumber);
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {};
+  const count = await Product.count({ ...keyword });
+  const allProducts = await productModel.find({ ...keyword }).limit(pageSize);
   res.json(allProducts);
 });
 exports.getProductByID = asyncHandler(async (req, res) => {
