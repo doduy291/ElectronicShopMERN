@@ -20,13 +20,14 @@ const HomeScreen = ({ match }) => {
   //   fetchAllProducts();
   // }, []);
   const keyword = match.params.keyword;
+  const pageNumber = match.params.pageNumber || 1
   // ****** WITH REDUX ******//
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, allProducts } = productList;
   useEffect(() => {
-    dispatch(productListAction(keyword));
-  }, [dispatch, keyword]);
+    dispatch(productListAction(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <div>
