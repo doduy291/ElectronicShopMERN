@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Paginate from '../components/Paginate';
 import axios from 'axios';
 import { productListAction } from '../actions/productActions';
 
@@ -20,11 +21,11 @@ const HomeScreen = ({ match }) => {
   //   fetchAllProducts();
   // }, []);
   const keyword = match.params.keyword;
-  const pageNumber = match.params.pageNumber || 1
+  const pageNumber = match.params.pageNumber || 1;
   // ****** WITH REDUX ******//
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  const { loading, error, allProducts } = productList;
+  const { loading, error, allProducts, pages, page } = productList;
   useEffect(() => {
     dispatch(productListAction(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
@@ -37,13 +38,16 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message alert="danger">{error}</Message>
       ) : (
-        <Row>
-          {allProducts.map((prd) => (
-            <Col key={prd._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={prd} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row>
+            {allProducts.map((prd) => (
+              <Col key={prd._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={prd} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''} />
+        </>
       )}
     </div>
   );

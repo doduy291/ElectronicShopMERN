@@ -6,14 +6,17 @@ exports.getProduct = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? {
-      name: {
-        $regex: req.query.keyword,
-        $options: 'i',
-      },
-    }
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
     : {};
   const count = await productModel.count({ ...keyword });
-  const allProducts = await productModel.find({ ...keyword }).limit(pageSize).skip(pageSize * (page - 1));
+  const allProducts = await productModel
+    .find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
   res.json({ allProducts, page, pages: Math.ceil(count / pageSize) });
 });
 exports.getProductByID = asyncHandler(async (req, res) => {
