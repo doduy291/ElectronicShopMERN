@@ -49,12 +49,13 @@ const ProductEditScreen = ({ match, history }) => {
 
     const formData = new FormData();
     formData.append('image', file);
+
     setUploading(true);
     try {
       const config = {
         'Content-Type': 'multipart/form-data',
       };
-      const { data } = await axios.post('/api/upload', formData, config);
+      const { data } = await axios.post('/api/upload/', formData, config);
       setImage(data);
       setUploading(false);
     } catch (error) {
@@ -65,6 +66,7 @@ const ProductEditScreen = ({ match, history }) => {
   const updateHandler = (e) => {
     e.preventDefault();
     dispatch(updateProduct({ _id: productId, name, price, image, brand, category, countInStock, description }));
+    dispatch(productDetailsAction(productId));
   };
   return (
     <>

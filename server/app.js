@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 // Require Routes
 const productRoutes = require('./routes/productRoutes');
@@ -21,6 +22,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie-Parser
+app.use(cookieParser());
 
 // Database Connection
 mongoose

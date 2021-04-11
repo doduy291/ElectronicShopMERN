@@ -36,12 +36,11 @@ const uploadSingle = upload.single('image');
 const resizeProductImg = async (req, res, next) => {
   if (!req.file) return next();
   req.file.filename = `640x510-${req.file.fieldname}-${Date.now()}${path.extname(req.file.originalname)}`;
-  // await sharp(req.file.buffer).resize(640, 510).toFile(`uploads/${req.file.filename}`);
+  await sharp(req.file.buffer).resize(640, 510).toFile(`uploads/${req.file.filename}`);
   next();
 };
 
 router.post('/', uploadSingle, resizeProductImg, (req, res) => {
-  console.log(req.file);
   const imageUrl = `uploads/${req.file.filename}`;
   res.send(`/${imageUrl}`);
 });

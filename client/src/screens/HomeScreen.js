@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
 import axios from 'axios';
 import { productListAction } from '../actions/productActions';
+import ProductCarousel from '../components/ProductCarousel';
 
 const HomeScreen = ({ match }) => {
   // ****** WITH REACT STATE ******//
@@ -32,6 +33,7 @@ const HomeScreen = ({ match }) => {
 
   return (
     <div>
+      {!keyword && <ProductCarousel />}
       <h1>Latest Product</h1>
       {loading ? (
         <Loader />

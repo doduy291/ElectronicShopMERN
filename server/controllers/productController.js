@@ -79,7 +79,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     res.json(updatedProduct);
   } else {
     res.status(404);
-    throw new ErrorEvent('Product not found');
+    throw new Error('Product not found');
   }
 });
 
@@ -109,4 +109,11 @@ exports.createProductReview = asyncHandler(async (req, res) => {
     res.status(404);
     throw new ErrorEvent('Product not found');
   }
+});
+
+// @route GET api/products/top
+exports.getTopProducts = asyncHandler(async (req, res) => {
+  const topProducts = await productModel.find({}).sort({ rating: -1 }).limit(3);
+
+  res.json(topProducts);
 });
