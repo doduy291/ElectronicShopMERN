@@ -9,6 +9,7 @@ const {
   createProductReview,
   getTopProducts,
 } = require('../controllers/productController');
+const { uploadSingle, resizeProductImg } = require('../controllers/uploadController');
 const { admin, protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get('/', getProduct);
 router.get('/top', getTopProducts);
 router.post('/create', protect, admin, createProduct);
 router.get('/:id', getProductByID);
-router.put('/update/:id', protect, admin, updateProduct);
+router.put('/update/:id', protect, admin, uploadSingle, resizeProductImg, updateProduct);
 router.delete('/delete/:id', protect, admin, deleteProduct);
 router.post('/reviews/:id', protect, createProductReview);
 

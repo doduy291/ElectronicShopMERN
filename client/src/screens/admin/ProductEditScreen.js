@@ -7,7 +7,7 @@ import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { productDetailsAction, updateProduct } from '../../actions/productActions';
-import { PRODUCT_UPDATE_RESET } from '../../constants/productConstants';
+import { PRODUCT_DETAILS_RESET } from '../../constants/productConstants';
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -48,8 +48,7 @@ const ProductEditScreen = ({ match, history }) => {
     const file = e.target.files[0];
 
     const formData = new FormData();
-    formData.append('image', file);
-
+    formData.append('image-file', file);
     setUploading(true);
     try {
       const config = {
@@ -65,7 +64,18 @@ const ProductEditScreen = ({ match, history }) => {
   };
   const updateHandler = (e) => {
     e.preventDefault();
-    dispatch(updateProduct({ _id: productId, name, price, image, brand, category, countInStock, description }));
+    const formDataUpdate = new FormData();
+    formDataUpdate.append('image-file', document.querySelector('#image-file').files[0]);
+    formDataUpdate.append('image', document.querySelector('#image').value);
+    formDataUpdate.append('_id', productId);
+    formDataUpdate.append('name', document.querySelector('#name').value);
+    formDataUpdate.append('price', document.querySelector('#price').value);
+    formDataUpdate.append('brand', document.querySelector('#brand').value);
+    formDataUpdate.append('category', document.querySelector('#category').value);
+    formDataUpdate.append('countInStock', document.querySelector('#countInStock').value);
+    formDataUpdate.append('description', document.querySelector('#description').value);
+    dispatch(updateProduct(formDataUpdate, productId));
+    dispatch({ type: PRODUCT_DETAILS_RESET });
     dispatch(productDetailsAction(productId));
   };
   return (

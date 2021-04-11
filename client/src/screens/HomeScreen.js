@@ -5,7 +5,7 @@ import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
-import axios from 'axios';
+import Meta from '../components/Meta';
 import { productListAction } from '../actions/productActions';
 import ProductCarousel from '../components/ProductCarousel';
 
@@ -32,7 +32,8 @@ const HomeScreen = ({ match }) => {
   }, [dispatch, keyword, pageNumber]);
 
   return (
-    <div>
+    <>
+      <Meta />
       {!keyword && <ProductCarousel />}
       <h1>Latest Product</h1>
       {loading ? (
@@ -51,7 +52,7 @@ const HomeScreen = ({ match }) => {
           <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''} />
         </>
       )}
-    </div>
+    </>
   );
 };
 

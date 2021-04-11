@@ -109,7 +109,7 @@ export const createProduct = (product) => async (dispatch, getState) => {
   }
 };
 
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProduct = (product, productId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_UPDATE_REQUEST,
@@ -119,11 +119,11 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     } = getState();
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `${userInfo.token}`,
       },
     };
-    const { data } = await axios.put(`/api/products/update/${product._id}`, product, config);
+    const { data } = await axios.put(`/api/products/update/${productId}`, product, config);
     dispatch({
       type: PRODUCT_UPDATE_SUCCESS,
       payload: data,

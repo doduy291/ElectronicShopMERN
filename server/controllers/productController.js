@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const productModel = require('../models/Product_Model');
+const { resizeProductImg, uploadSingle } = require('../controllers/uploadController');
 
 exports.getProduct = asyncHandler(async (req, res) => {
   const pageSize = 4;
