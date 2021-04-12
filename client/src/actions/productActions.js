@@ -92,7 +92,7 @@ export const createProduct = (product) => async (dispatch, getState) => {
     } = getState();
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `${userInfo.token}`,
       },
     };

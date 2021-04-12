@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
@@ -16,7 +17,6 @@ const ProductCreateScreen = ({ match, history }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(1);
   const [description, setDescription] = useState('');
-  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -38,9 +38,32 @@ const ProductCreateScreen = ({ match, history }) => {
       setDescription('');
     }
   }, [dispatch, history, successCreate, userInfo]);
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image-file', file);
+    try {
+      const config = {
+        'Content-Type': 'multipart/form-data',
+      };
+      const { data } = await axios.post('/api/upload/', formData, config);
+      setImage(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const createHandler = (e) => {
     e.preventDefault();
-    dispatch(createProduct({ name, price, image, brand, category, countInStock, description }));
+    const formDataCreate = new FormData();
+    formDataCreate.append('image-file', document.querySelector('#image-file').files[0]);
+    formDataCreate.append('image', image);
+    formDataCreate.append('name', name);
+    formDataCreate.append('price', price);
+    formDataCreate.append('brand', brand);
+    formDataCreate.append('category', category);
+    formDataCreate.append('countInStock', countInStock);
+    formDataCreate.append('description', description);
+    dispatch(createProduct(formDataCreate));
   };
   return (
     <>
@@ -115,8 +138,7 @@ const ProductCreateScreen = ({ match, history }) => {
               value={image}
               onChange={(e) => setImage(e.target.value)}
             ></Form.Control>
-            {/* <Form.File id="image-file" label="Choose File" custom onChange={uploadFileHandler}></Form.File>
-          {uploading && <Loader />} */}
+            <Form.File id="image-file" label="Choose File" custom onChange={uploadFileHandler}></Form.File>
           </Form.Group>
           <Button type="submit" variant="primary">
             Create

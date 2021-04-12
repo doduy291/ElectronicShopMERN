@@ -15,9 +15,7 @@ const ProductCarousel = () => {
   }, [dispatch]);
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : error ? (
+      {error ? (
         <Message alert="danger">{error}</Message>
       ) : (
         <Carousel pause="hover" className="bg-dark">

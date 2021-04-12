@@ -146,7 +146,7 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setDescription(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
+ 
             <Form.Group controlId="image">
               <Form.Label>Image</Form.Label>
               <Form.Control

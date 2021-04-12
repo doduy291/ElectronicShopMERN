@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const productModel = require('../models/Product_Model');
-const { resizeProductImg, uploadSingle } = require('../controllers/uploadController');
+const sharp = require('sharp');
 
 exports.getProduct = asyncHandler(async (req, res) => {
   const pageSize = 4;
@@ -47,7 +47,7 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
 // @access Private/Admin
 exports.createProduct = asyncHandler(async (req, res) => {
   const { name, price, image, brand, category, countInStock, description } = req.body;
-  const product = new Product({
+  const product = new productModel({
     name: name,
     price: price,
     _iduser: req.user._id,
@@ -58,6 +58,10 @@ exports.createProduct = asyncHandler(async (req, res) => {
     numReviews: 0,
     description: description,
   });
+  if (req.file) {
+    const filename = image.slice(1);
+    await sharp(req.file.buffer).resize(640, 510).toFile(`${filename}`);
+  }
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
 });
@@ -68,6 +72,9 @@ exports.updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } = req.body;
   const product = await productModel.findById(req.params.id);
   if (product) {
+    const filename = image.slice(1);
+    await sharp(req.file.buffer).resize(640, 510).toFile(`${filename}`);
+
     product.name = name;
     product.price = price;
     product.description = description;
