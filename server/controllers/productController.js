@@ -20,6 +20,7 @@ exports.getProduct = asyncHandler(async (req, res) => {
     .skip(pageSize * (page - 1));
   res.json({ allProducts, page, pages: Math.ceil(count / pageSize) });
 });
+
 exports.getProductByID = asyncHandler(async (req, res) => {
   const oneProduct = await productModel.findOne({ _id: req.params.id });
   if (oneProduct) {
@@ -115,7 +116,7 @@ exports.createProductReview = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Review added', product });
   } else {
     res.status(404);
-    throw new ErrorEvent('Product not found');
+    throw new Error('Product not found');
   }
 });
 

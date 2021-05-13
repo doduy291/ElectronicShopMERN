@@ -21,7 +21,6 @@ import {
 } from '../constants/orderConstants';
 
 export const createOrder = (order) => async (dispatch, getState) => {
-  console.log(order);
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
